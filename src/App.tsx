@@ -1,35 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// CSS
+import "./App.css";
 
+// Axios
+import axios from "axios";
+
+// React
+import { useEffect, useState } from "react";
+
+// App
 function App() {
-  const [count, setCount] = useState(0)
+  // Effect
+  useEffect(() => {
+    // Fetch Data
+    const fetchData = async () => {
+      // Try
+      try {
+        // Response
+        const response = await axios.get(
+          `https://api.pokemontcg.io/v2/cards/xy1-1`,
+          {
+            headers: { "X-Api-Key": import.meta.env.API_KEY },
+          }
+        );
+
+        // Log
+        console.log("Data: ", response.data.data);
+
+        // Set Card
+        setCard(response.data.data);
+      } catch (error) {
+        // Log
+        console.error("Error: ", error);
+
+        // Set Loading
+        setLoading(false);
+      } finally {
+        // Log
+        console.log("Finally");
+
+        // Set Loading
+        setLoading(false);
+      }
+    };
+
+    // Fetch Data
+    fetchData();
+  }, []);
+
+  // Card Type
+  type Card = {
+    name: string;
+    images: {
+      large: string;
+    };
+  };
+
+  // Card
+  const [card, setCard] = useState<Card>({} as Card);
+
+  // Loading
+  const [loading, setLoading] = useState<boolean>(true);
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container">
+        <div className="card">
+          {loading ? (
+            <div className="skeleton" />
+          ) : (
+            <img
+              alt={card.name}
+              src={card.images.large}
+              className="card__image"
+            />
+          )}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+// Export
+export default App;

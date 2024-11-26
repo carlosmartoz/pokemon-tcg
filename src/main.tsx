@@ -1,10 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+// CSS
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
+// App
+import App from "./App.tsx";
+
+// React
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+// Render
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
-  </StrictMode>,
-)
+  </StrictMode>
+);

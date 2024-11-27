@@ -1,7 +1,7 @@
 # Introduction
 
 <div>
-   <h3>TCG Pokémon App</h3>
+   <h3>Pokémon TCG</h3>
 
    <p>Web application consuming the Pokémon TCG API to fetch and display detailed information about trading cards, including stats, rarity, and expansions.</p>
 </div>

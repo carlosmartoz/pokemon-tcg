@@ -17,7 +17,7 @@ function App() {
       try {
         // Response
         const response = await axios.get(
-          `https://api.pokemontcg.io/v2/cards/xy1-1`,
+          `https://api.pokemontcg.io/v2/cards?pageSize=20`,
           {
             headers: { "X-Api-Key": import.meta.env.API_KEY },
           }
@@ -27,7 +27,7 @@ function App() {
         console.log("Data: ", response.data.data);
 
         // Set Card
-        setCard(response.data.data);
+        setCards(response.data.data);
       } catch (error) {
         // Log
         console.error("Error: ", error);
@@ -56,26 +56,45 @@ function App() {
   };
 
   // Card
-  const [card, setCard] = useState<Card>({} as Card);
+  const [cards, setCards] = useState<Card[]>([]);
 
   // Loading
   const [loading, setLoading] = useState<boolean>(true);
 
   return (
     <>
-      <div className="container">
-        <div className="card">
-          {loading ? (
-            <div className="skeleton" />
-          ) : (
-            <img
-              alt={card.name}
-              src={card.images.large}
-              className="card__image"
-            />
-          )}
-        </div>
-      </div>
+      <main className="main">
+        <article className="article">
+          <section className="section">
+            {loading && <p className="skeleton">Loading...</p>}
+
+            <ul className="grid">
+              {cards.map((card, index) => (
+                <li key={index} className="grid__item">
+                  <img
+                    alt={card.name}
+                    className="grid__image"
+                    src={card.images.large}
+                  />
+                </li>
+              ))}
+            </ul>
+            {/* <div className="container">
+                <div className="card">
+                  {loading ? (
+                    <div className="skeleton" />
+                  ) : (
+                    <img
+                      alt={card.name}
+                      src={card.images.large}
+                      className="card__image"
+                    />
+                  )}
+                </div>
+              </div> */}
+          </section>
+        </article>
+      </main>
     </>
   );
 }
